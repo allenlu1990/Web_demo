@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http#{}//mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.test_web.mapper.CallLogMapper">
+  <!--<resultMap id="BaseResultMap" type="com.example.test_web.model.CallLog">-->
+    <!--<result column="id" jdbcType="INTEGER" property="id" />-->
+    <!--<result column="userName" jdbcType="VARCHAR" property="userName" />-->
+    <!--<result column="passWord" jdbcType="VARCHAR" property="passWord" />-->
+    <!--<result column="realName" jdbcType="VARCHAR" property="realName" />-->
+  <!--</resultMap>-->
+
+  <select id="getCallLogList" resultType="com.example.test_web.model.CallLog">
+        SELECT `call_sum`, `call_duration_sum`, `telephone`, `name`, `year` , `month`, `day` FROM tb_dimension_date t4 INNER JOIN 
+        ( SELECT `id_date_dimension`, `call_sum`, `call_duration_sum`, `telephone`, `name` FROM tb_call t2 
+        INNER JOIN ( SELECT `id`, `telephone`, `name` FROM tb_contacts WHERE telephone = #{telephone} ) t1 ON t2.id_contact = t1.id ) t3
+          ON t4.id = t3.id_date_dimension 
+        WHERE `year` = #{year} AND `month` != #{month} AND `day` = #{day} ORDER BY `year`, `month`;
+    </select>
+
+</mapper>
